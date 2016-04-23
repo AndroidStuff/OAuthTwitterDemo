@@ -21,5 +21,13 @@ public class MainActivity extends BaseActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		if (app.isNotAuthorized()) {
+			return;
+		}
+		loadTweetsIfNotLoadedAlready();
+	}
+
+	private void loadTweetsIfNotLoadedAlready() {
+		// TODO: Pending Implementation
 	}
 }
