@@ -29,7 +29,7 @@ public class OAuthTwitterHelper {
 	}
 
 	private Twitter cookTwitterInstance() {
-		Twitter twitter = TwitterFactory.getSingleton();
+		Twitter twitter = TwitterFactory.getSingleton(); //new TwitterFactory().getInstance();
 		twitter.setOAuthConsumer(consumerKey, consumerSecretKey);
 		return twitter;
 	}

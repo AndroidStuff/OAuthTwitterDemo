@@ -19,13 +19,14 @@ public class OAuthTwitterDemoApp extends Application {
 		oAuthTwitterHelper = new OAuthTwitterHelper(this);
 	}
 
-	private RequestToken cookOAuthRequestToken() {
+	public RequestToken cookOAuthRequestToken() {
 		try {
-			return oAuthTwitterHelper.getTwitter().getOAuthRequestToken();
+			currentRequestToken = oAuthTwitterHelper.getTwitter().getOAuthRequestToken();
 		} catch (TwitterException e) {
+			currentRequestToken = null;
 			e.printStackTrace();
 		}
-		return null;
+		return currentRequestToken;
 	}
 
 	public boolean isNotAuthorized() {
@@ -36,13 +37,8 @@ public class OAuthTwitterDemoApp extends Application {
 		return oAuthTwitterHelper.hasAccessToken();
 	}
 
-	public String beginAuthorization() {
-		String url = null;
-		if (currentRequestToken == null) {
-			currentRequestToken = cookOAuthRequestToken();
-		}
-		url = currentRequestToken.getAuthorizationURL();
-		Log.i(getClass().getSimpleName(), "Authorization URL is " + url);
-		return url;
+	public RequestToken getCurrentRequestToken() {
+		return currentRequestToken;
 	}
+
 }
