@@ -4,36 +4,26 @@ import com.example.oauthtwitterdemo.R;
 import com.example.oauthtwitterdemo.app.OAuthTwitterDemoApp;
 import com.example.oauthtwitterdemo.base.BaseActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.webkit.WebView;
 
-public class MainActivity extends BaseActivity {
+public class AuthorizationActivity extends BaseActivity {
 
 	private OAuthTwitterDemoApp app;
+	private WebView webView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_authorization);
 		app = (OAuthTwitterDemoApp) getApplication();
-
-		setContentView(R.layout.activity_main);
+		webView = (WebView) findViewById(R.id.webview);
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		if (app.isNotAuthorized()) {
-			authorize();
-		}
-		loadTweetsIfNotLoadedAlready();
-	}
-
-	private void authorize() {
-		final Intent intent = new Intent(this, AuthorizationActivity.class);
-		startActivity(intent);
-	}
-
-	private void loadTweetsIfNotLoadedAlready() {
-		// TODO: Pending Implementation
+		String authURL = app.beginAuthorization();
+		webView.loadUrl(authURL);
 	}
 }

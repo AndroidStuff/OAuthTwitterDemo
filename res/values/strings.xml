@@ -3,5 +3,6 @@
 
     <string name="app_name">OAuthTwitterDemo</string>
     <string name="no_tweets">No tweets, looks like the world is sleeping!</string>
+    <string name="authorization">Authorization</string>
 
 </resources>

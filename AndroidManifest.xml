@@ -8,6 +8,8 @@
         android:minSdkVersion="23"
         android:targetSdkVersion="23" />
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:name=".app.OAuthTwitterDemoApp"
         android:allowBackup="true"
@@ -21,6 +23,11 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".activity.AuthorizationActivity"
+            android:label="@string/authorization">
         </activity>
     </application>
 
