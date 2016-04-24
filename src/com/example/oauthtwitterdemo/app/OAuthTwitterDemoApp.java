@@ -37,8 +37,4 @@ public class OAuthTwitterDemoApp extends Application {
 		return oAuthTwitterHelper.hasAccessToken();
 	}
 
-	public RequestToken getCurrentRequestToken() {
-		return currentRequestToken;
-	}
-
 }

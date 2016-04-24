@@ -9,10 +9,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import twitter4j.auth.RequestToken;
 
 public class AuthorizationActivity extends BaseActivity {
 
 	private OAuthTwitterDemoApp app;
+	private RequestToken currentRequestToken;
 	private WebView webView;
 	private WebViewClient webViewClient = new WebViewClient() {
 		@Override
@@ -49,11 +51,11 @@ public class AuthorizationActivity extends BaseActivity {
 		@Override
 		protected String doInBackground(Void... params) {
 			String url = null;
-			if (app.getCurrentRequestToken() == null) {
-				Log.i(getClass().getSimpleName(), "currentRequestToken = " + app.getCurrentRequestToken());
-				app.cookOAuthRequestToken();
+			if (currentRequestToken == null) {
+				currentRequestToken = app.cookOAuthRequestToken();
+				Log.i(getClass().getSimpleName(), "currentRequestToken = " + currentRequestToken);
 			}
-			url = app.getCurrentRequestToken().getAuthorizationURL();
+			url = currentRequestToken.getAuthorizationURL();
 			Log.i(getClass().getSimpleName(), "Authorization URL is " + url);
 			return url;
 		}
