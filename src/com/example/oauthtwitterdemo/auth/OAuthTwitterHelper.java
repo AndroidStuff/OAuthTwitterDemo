@@ -9,7 +9,9 @@ import com.example.oauthtwitterdemo.R;
 import android.content.Context;
 import android.util.Log;
 import twitter4j.Twitter;
+import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
+import twitter4j.auth.RequestToken;
 
 public class OAuthTwitterHelper {
 
@@ -18,6 +20,7 @@ public class OAuthTwitterHelper {
 
 	private String accessToken;
 	private Twitter twitter;
+	private RequestToken requestToken;
 	private Context context;
 	private String consumerSecretKey;
 	private String consumerKey;
@@ -28,8 +31,8 @@ public class OAuthTwitterHelper {
 		twitter = cookTwitterInstance();
 	}
 
-	private Twitter cookTwitterInstance() {
-		Twitter twitter = TwitterFactory.getSingleton(); //new TwitterFactory().getInstance();
+	public Twitter cookTwitterInstance() {
+		twitter = TwitterFactory.getSingleton(); //new TwitterFactory().getInstance();
 		twitter.setOAuthConsumer(consumerKey, consumerSecretKey);
 		return twitter;
 	}
@@ -53,5 +56,31 @@ public class OAuthTwitterHelper {
 
 	public Twitter getTwitter() {
 		return twitter;
+	}
+
+	public RequestToken getOAuthRequestToken(boolean tryAgain) {
+		try {
+			if (twitter == null) {
+				twitter = cookTwitterInstance();
+				requestToken = null;
+			}
+			if (requestToken == null) {
+				requestToken = twitter.getOAuthRequestToken();
+			}
+		} catch (TwitterException e) {
+			if (tryAgain) {
+				Log.e(getClass().getSimpleName(),
+						"Trying again..Exception occurred during getOAuthRequestToken(..) invocation. "
+								+ e.getErrorMessage());
+				return getOAuthRequestToken(false);
+			} else {
+				throw new RuntimeException(e);
+			}
+		}
+		return requestToken;
+	}
+
+	public RequestToken getOAuthRequestToken() {
+		return getOAuthRequestToken(true);
 	}
 }

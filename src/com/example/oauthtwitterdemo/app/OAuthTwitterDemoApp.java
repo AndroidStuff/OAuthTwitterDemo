@@ -4,13 +4,11 @@ import com.example.oauthtwitterdemo.auth.OAuthTwitterHelper;
 
 import android.app.Application;
 import android.util.Log;
-import twitter4j.TwitterException;
 import twitter4j.auth.RequestToken;
 
 public class OAuthTwitterDemoApp extends Application {
 
 	private OAuthTwitterHelper oAuthTwitterHelper;
-	private RequestToken currentRequestToken;
 
 	@Override
 	public void onCreate() {
@@ -20,13 +18,7 @@ public class OAuthTwitterDemoApp extends Application {
 	}
 
 	public RequestToken cookOAuthRequestToken() {
-		try {
-			currentRequestToken = oAuthTwitterHelper.getTwitter().getOAuthRequestToken();
-		} catch (TwitterException e) {
-			currentRequestToken = null;
-			e.printStackTrace();
-		}
-		return currentRequestToken;
+		return oAuthTwitterHelper.getOAuthRequestToken();
 	}
 
 	public boolean isNotAuthorized() {
