@@ -2,13 +2,19 @@ package com.example.oauthtwitterdemo.base;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.widget.Toast;
 
 public abstract class BaseActivity extends Activity {
 
 	private ProgressDialog progressDialog;
 	private boolean destroyed = false;
+	private Toast noInternetToast;
 
 	protected void showProgressDialog(CharSequence message) {
 		Log.d(getClass().getSimpleName(), "In showProgressDialog(..)");
@@ -25,6 +31,30 @@ public abstract class BaseActivity extends Activity {
 		if (progressDialog != null && !destroyed) {
 			progressDialog.dismiss();
 		}
+	}
+
+	protected boolean isOnline() {
+		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo netInfo = cm.getActiveNetworkInfo();
+		if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+			return true;
+		} else {
+			displayNoInternetMessage();
+			return false;
+		}
+	}
+
+	private void displayNoInternetMessage() {
+		if (noInternetToast == null) {
+			noInternetToast = Toast.makeText(this, "Oops, your device has no Internet connection!",
+					Toast.LENGTH_LONG);
+			noInternetToast.setGravity(Gravity.CENTER, 0, 0);
+		}
+		noInternetToast.show();
+	}
+
+	protected boolean isOffline() {
+		return !isOnline();
 	}
 
 	/****************************************************************

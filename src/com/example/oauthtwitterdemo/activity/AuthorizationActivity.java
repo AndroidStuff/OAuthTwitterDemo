@@ -37,8 +37,11 @@ public class AuthorizationActivity extends BaseActivity {
 
 	@Override
 	protected void onResume() {
-		new GetOAuthURL4TwitterAsyncTask().execute();
 		super.onResume();
+		if (isOffline()) {
+			finish();
+		}
+		new GetOAuthURL4TwitterAsyncTask().execute();
 	}
 
 	private void loadUrl(String url) {
