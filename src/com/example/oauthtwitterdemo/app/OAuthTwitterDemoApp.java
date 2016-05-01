@@ -29,4 +29,8 @@ public class OAuthTwitterDemoApp extends Application {
 		return oAuthTwitterHelper.hasAccessToken();
 	}
 
+	public void authorized(String oauthVerifier) {
+		oAuthTwitterHelper.authorized(oauthVerifier);
+	}
+
 }
