@@ -4,6 +4,7 @@ import com.example.oauthtwitterdemo.auth.OAuthTwitterHelper;
 
 import android.app.Application;
 import android.util.Log;
+import twitter4j.Twitter;
 import twitter4j.auth.RequestToken;
 
 public class OAuthTwitterDemoApp extends Application {
@@ -31,6 +32,10 @@ public class OAuthTwitterDemoApp extends Application {
 
 	public void authorized(String oauthVerifier) {
 		oAuthTwitterHelper.authorized(oauthVerifier);
+	}
+
+	public Twitter getTwitter() {
+		return oAuthTwitterHelper.getTwitter();
 	}
 
 }

@@ -62,6 +62,9 @@ public class OAuthTwitterHelper {
 	}
 
 	public Twitter getTwitter() {
+		if (twitter == null) {
+			twitter = cookTwitterInstance();
+		}
 		return twitter;
 	}
 
@@ -92,9 +95,6 @@ public class OAuthTwitterHelper {
 	}
 
 	public AccessToken getOAuthAccessToken(String oauthVerifier) {
-		// if (twitter == null) {
-		// twitter = cookTwitterInstance();
-		// }
 		try {
 			return twitter.getOAuthAccessToken(requestToken, oauthVerifier);
 		} catch (TwitterException e) {
